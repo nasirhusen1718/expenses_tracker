@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .high-expense {
+            background: #ffe5e5 !important;
+            color: #c0392b;
+            font-weight: bold;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .dashboard-actions {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>Welcome, {{ username }}!</h1>
+        <a href="/logout" class="dashboard-button">Logout</a>
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('view_expenses') }}">View Expenses & Charts</a>
+    </div>
+
+    <form id="add-expense-form" method="POST">
+        <h2>Add Expense</h2>
+        <label>Amount:</label>
+        <input type="number" name="amount" required><br>
+        <label>Category:</label>
+        <input type="text" name="category" required><br>
+        <label>Description:</label>
+        <input type="text" name="description"><br>
+        <button type="submit">Add Expense</button>
+    </form>
+
+    <h2>Your Expenses</h2>
+    {% if expenses %}
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for expense in expenses %}
+        <tr {% if expense[2]|float > 2000 %}class="high-expense"{% endif %}>
+            <td>{{ expense[0] }}</td>
+            <td>{{ expense[1] }}</td>
+            <td>{{ expense[2] }}</td>
+            <td>{{ expense[3] }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_expense') }}" style="display:inline;">
+                    <input type="hidden" name="date" value="{{ expense[0] }}">
+                    <input type="hidden" name="category" value="{{ expense[1] }}">
+                    <input type="hidden" name="amount" value="{{ expense[2] }}">
+                    <input type="hidden" name="description" value="{{ expense[3] }}">
+                    <button type="submit" onclick="return confirm('Delete this expense?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No expenses added yet.</p>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

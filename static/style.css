@@ -1,23 +1,85 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
 }
 
 h1, h2 {
-    color: #333;
+    color: #2c3e50;
+    margin-top: 30px;
 }
 
-form input, form button {
-    padding: 5px;
-    margin: 5px 0;
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.dashboard-button {
+    background: #e74c3c;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+}
+
+input[type="text"], input[type="number"], input[type="password"] {
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    width: 220px;
+}
+
+button {
+    background: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #2980b9;
 }
 
 table {
-    margin-top: 20px;
+    width: 100%;
     border-collapse: collapse;
+    margin: 20px 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 }
 
-table th, table td {
-    padding: 10px;
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ecf0f1;
     text-align: left;
+}
+
+th {
+    background: #3498db;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+canvas {
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 }

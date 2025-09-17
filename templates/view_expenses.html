@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Expenses</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Expenses for {{ username }}</h1>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Description</th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense["date"] }}</td>
+            <td>{{ expense["category"] }}</td>
+            <td>{{ expense["amount"] }}</td>
+            <td>{{ expense["description"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Spending by Category</h2>
+    <canvas id="categoryChart" width="400" height="200"></canvas>
+    <script>
+        // Prepare data for Chart.js
+        const expenses = {{ expenses|tojson }};
+        const categoryTotals = {};
+        expenses.forEach(exp => {
+            const cat = exp.category;
+            const amt = parseFloat(exp.amount) || 0;
+            categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
+        });
+        const labels = Object.keys(categoryTotals);
+        const data = Object.values(categoryTotals);
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Spent',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            }
+        });
+    </script>
+</body>
+</html>s

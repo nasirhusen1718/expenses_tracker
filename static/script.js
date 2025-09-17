@@ -1,24 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+    const form = document.querySelector("#add-expense-form"); // Use ID for specific form
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault(); // Prevent full page reload
+    if (form) { // Ensure form exists before adding event listener
+        form.addEventListener("submit", (e) => {
+            e.preventDefault(); // Prevent full page reload
 
-        const amount = form.amount.value;
-        const category = form.category.value;
-        const description = form.description.value;
-        const date = new Date().toISOString().split("T")[0];
+            const amount = form.amount.value;
+            const category = form.category.value;
+            const description = form.description.value;
+            // Date is handled by the server for consistency
 
-        // Add row to table dynamically
-        const table = document.querySelector("table");
-        const newRow = table.insertRow(-1);
-        newRow.insertCell(0).innerText = date;
-        newRow.insertCell(1).innerText = category;
-        newRow.insertCell(2).innerText = amount;
-        newRow.insertCell(3).innerText = description;
+            // Send data to backend via fetch()
+            fetch("/dashboard", { // POST to the dashboard route
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    amount: amount,
+                    category: category,
+                    description: description,
+                }).toString(),
+            })
+            .then(response => response.text()) // Get the response text (which might be the rendered HTML if redirected)
+            .then(() => {
+                // After successful submission, refresh the page to show new expense
+                // Alternatively, you could fetch expenses and update table dynamically with JSON
+                window.location.reload(); 
+            })
+            .catch(error => console.error("Error adding expense:", error));
 
-        // Optionally, send data to backend via fetch() here
-
-        form.reset(); // Clear form
-    });
+            form.reset(); // Clear form
+        });
+    }
 });
