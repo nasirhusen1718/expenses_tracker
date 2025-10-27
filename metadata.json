@@ -1,0 +1,5 @@
+{
+  "name": "React Expense Tracker",
+  "description": "A simple and intuitive web application to track your daily expenses, set budgets, and manage your finances effectively. Features a visual dashboard, expense management, budget tracking, and CSV export.",
+  "requestFramePermissions": []
+}
